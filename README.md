@@ -70,8 +70,8 @@ HospitalBooking/
 | Step | Description | Status |
 |------|-------------|--------|
 | 01 | Project structure + GitHub | ✅ Done |
-| 02 | .NET solution (empty API) | ⏳ Next |
-| 03 | Domain entities | ⏳ Pending |
+| 02 | .NET solution (empty API) | ✅ Done |
+| 03 | Domain entities | ⏳ Next |
 | 04 | EF Core + HospitalBookingDb + Migration | ⏳ Pending |
 | 05 | JWT Auth + Roles | ⏳ Pending |
 | 06 | Appointments APIs | ⏳ Pending |
@@ -92,15 +92,18 @@ Detailed docs for each step: [`docs/steps/`](docs/steps/)
 
 ---
 
-## Getting Started (later steps)
+## Getting Started / التشغيل
 
-```bash
-# Backend
-cd backend
-dotnet run --project HospitalBooking.Api
+```powershell
+# Backend (Swagger: http://localhost:5268/swagger)
+cd C:\Users\SAA\Projects\HospitalBooking\backend
+dotnet run --project HospitalBooking.Api --launch-profile http
 
-# Frontend
-cd frontend/hospital-booking
+# Health check
+# GET http://localhost:5268/api/health
+
+# Frontend (from Step 07)
+cd C:\Users\SAA\Projects\HospitalBooking\frontend\hospital-booking
 npm start
 ```
 
