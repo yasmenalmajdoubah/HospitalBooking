@@ -6,7 +6,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // Services / validators will be registered in later steps.
+        // Application-layer services can be registered here later.
         return services;
     }
 }
