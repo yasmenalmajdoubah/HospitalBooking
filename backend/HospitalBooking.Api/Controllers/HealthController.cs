@@ -1,4 +1,6 @@
+using HospitalBooking.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitalBooking.Api.Controllers;
 
@@ -6,19 +8,57 @@ namespace HospitalBooking.Api.Controllers;
 [Route("api/[controller]")]
 public class HealthController : ControllerBase
 {
+    private readonly HospitalBookingDbContext _dbContext;
+
+    public HealthController(HospitalBookingDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
     /// <summary>
-    /// Health check — confirms the API is running.
-    /// فحص صحة الـ API — للتأكد أن السيرفر يعمل.
+    /// Health check — API + database connectivity.
+    /// فحص صحة الـ API واتصال قاعدة البيانات.
     /// </summary>
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
+        var connected = false;
+        IEnumerable<string> applied = Array.Empty<string>();
+        IEnumerable<string> pending = Array.Empty<string>();
+        string? dbError = null;
+
+        try
+        {
+            connected = await _dbContext.Database.CanConnectAsync(cancellationToken);
+            if (connected)
+            {
+                applied = await _dbContext.Database.GetAppliedMigrationsAsync(cancellationToken);
+                pending = await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken);
+            }
+            else
+            {
+                pending = await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken);
+            }
+        }
+        catch (Exception ex)
+        {
+            dbError = ex.Message;
+            pending = _dbContext.Database.GetMigrations();
+        }
+
         return Ok(new
         {
-            status = "Healthy",
-            statusAr = "يعمل بشكل سليم",
+            status = connected ? "Healthy" : "Degraded",
+            statusAr = connected ? "يعمل بشكل سليم" : "مشكلة في الاتصال بقاعدة البيانات",
             service = "HospitalBooking.Api",
-            database = "HospitalBookingDb (not connected yet — Step 04)",
+            database = new
+            {
+                name = "HospitalBookingDb",
+                connected,
+                appliedMigrations = applied,
+                pendingMigrations = pending,
+                error = dbError
+            },
             utc = DateTime.UtcNow
         });
     }

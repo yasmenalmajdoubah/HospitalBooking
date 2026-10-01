@@ -1,6 +1,8 @@
 # Database Design Overview / نظرة عامة على قاعدة البيانات
 
-> Entities موجودة في Domain (Step 03). EF Core + إنشاء القاعدة الفعلي في **Step 04**.
+> Entities موجودة في Domain (Step 03).  
+> EF Core + Migration `InitialCreate` موجودة (Step 04).  
+> تطبيق القاعدة على الجهاز: `dotnet ef database update` بعد تثبيت SQL Server LocalDB/Express.
 
 ## Database
 
