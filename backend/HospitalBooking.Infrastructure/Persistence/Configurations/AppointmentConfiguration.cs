@@ -12,7 +12,7 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Notes).HasMaxLength(1000);
-        builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+        // CreatedAt is set in application code (UTC).
 
         builder.HasIndex(x => new { x.DoctorId, x.AppointmentDate, x.StartTime }).IsUnique();
         builder.HasIndex(x => new { x.PatientId, x.AppointmentDate });

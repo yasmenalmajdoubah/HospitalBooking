@@ -1,0 +1,40 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(1.2rem, 3vw, 2.4rem);
+  display: grid;
+  gap: 1rem;
+}
+
+.back {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+h1 {
+  margin-top: 0.6rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+header p {
+  margin-top: 0.55rem;
+  color: var(--muted);
+}
+
+.form {
+  padding: 1.3rem;
+  display: grid;
+  gap: 0.95rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

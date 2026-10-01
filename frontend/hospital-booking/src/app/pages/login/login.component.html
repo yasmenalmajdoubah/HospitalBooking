@@ -1,0 +1,80 @@
+<section class="login-shell">
+  <div class="hero rise">
+    <p class="eyebrow">نظام حجوزات المستشفى</p>
+    <h1>Hospital<br /><span>Booking</span></h1>
+    <div class="accent-line"></div>
+    <p class="lead">
+      واجهة حجز مواعيد بثقة عالية — عربي وإنجليزي، سريعة، ومرتبطة مباشرة بالـ API.
+    </p>
+    <ul class="points">
+      <li>JWT + Roles</li>
+      <li>.NET 8 API</li>
+      <li>SQL Server · HospitalBookingDb</li>
+    </ul>
+  </div>
+
+  <div class="auth-panel panel rise rise-delay-2">
+    <div class="tabs">
+      <button type="button" [class.active]="mode === 'login'" (click)="mode = 'login'">دخول</button>
+      <button type="button" [class.active]="mode === 'register'" (click)="mode = 'register'">تسجيل مريض</button>
+    </div>
+
+    @if (error()) {
+      <div class="alert">{{ error() }}</div>
+    }
+
+    @if (mode === 'login') {
+      <form class="form" (ngSubmit)="submitLogin()">
+        <div class="field">
+          <label>اسم المستخدم أو الإيميل</label>
+          <input [(ngModel)]="loginForm.userNameOrEmail" name="userNameOrEmail" required />
+        </div>
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input [(ngModel)]="loginForm.password" name="password" type="password" required />
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="loading()">
+          {{ loading() ? 'جاري الدخول...' : 'ادخل النظام' }}
+        </button>
+        <p class="hint">تجريبي: admin / Admin&#64;123</p>
+      </form>
+    } @else {
+      <form class="form" (ngSubmit)="submitRegister()">
+        <div class="grid-2">
+          <div class="field">
+            <label>اسم المستخدم</label>
+            <input [(ngModel)]="registerForm.userName" name="userName" required />
+          </div>
+          <div class="field">
+            <label>الإيميل</label>
+            <input [(ngModel)]="registerForm.email" name="email" type="email" required />
+          </div>
+        </div>
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input [(ngModel)]="registerForm.password" name="regPassword" type="password" required />
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>الاسم EN</label>
+            <input [(ngModel)]="registerForm.fullName" name="fullName" required />
+          </div>
+          <div class="field">
+            <label>الاسم AR</label>
+            <input [(ngModel)]="registerForm.fullNameAr" name="fullNameAr" />
+          </div>
+        </div>
+        <div class="field">
+          <label>الهاتف</label>
+          <input [(ngModel)]="registerForm.phone" name="phone" />
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="loading()">
+          {{ loading() ? 'جاري التسجيل...' : 'إنشاء حساب مريض' }}
+        </button>
+      </form>
+    }
+  </div>
+
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+</section>

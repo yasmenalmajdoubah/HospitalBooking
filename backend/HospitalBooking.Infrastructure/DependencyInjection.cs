@@ -21,8 +21,19 @@ public static class DependencyInjection
             ?? throw new InvalidOperationException(
                 "Connection string 'HospitalBookingDb' is missing. Check appsettings.json.");
 
+        var provider = configuration.GetValue<string>("Database:Provider") ?? "Sqlite";
+
         services.AddDbContext<HospitalBookingDbContext>(options =>
-            options.UseSqlServer(connectionString));
+        {
+            if (provider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
+            {
+                options.UseSqlServer(connectionString);
+            }
+            else
+            {
+                options.UseSqlite(connectionString);
+            }
+        });
 
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
 

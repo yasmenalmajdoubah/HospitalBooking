@@ -1,0 +1,74 @@
+<div class="page">
+  <header class="rise">
+    <a routerLink="/appointments" class="back">← رجوع للحجوزات</a>
+    <h1>حجز موعد جديد</h1>
+    <p>اختَر القسم والطبيب والوقت — النظام يمنع التعارض تلقائياً.</p>
+  </header>
+
+  <form class="panel form rise rise-delay-1" (ngSubmit)="submit()">
+    @if (error()) {
+      <div class="alert">{{ error() }}</div>
+    }
+    @if (success()) {
+      <div class="alert ok">{{ success() }}</div>
+    }
+
+    <div class="grid-2">
+      <div class="field">
+        <label>القسم</label>
+        <select [(ngModel)]="form.departmentId" name="departmentId" (ngModelChange)="onDepartmentChange()">
+          <option [ngValue]="0">كل الأقسام</option>
+          @for (d of departments(); track d.id) {
+            <option [ngValue]="d.id">{{ d.nameAr }} / {{ d.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label>الطبيب</label>
+        <select [(ngModel)]="form.doctorId" name="doctorId" required>
+          <option [ngValue]="0" disabled>اختر طبيب</option>
+          @for (doc of doctors(); track doc.id) {
+            <option [ngValue]="doc.id">
+              {{ doc.fullNameAr || doc.fullName }} — {{ doc.specialtyAr || doc.specialty }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    @if (role === 'Admin' || role === 'Receptionist') {
+      <div class="field">
+        <label>المريض</label>
+        <select [(ngModel)]="form.patientId" name="patientId" required>
+          <option [ngValue]="0" disabled>اختر مريض</option>
+          @for (p of patients(); track p.id) {
+            <option [ngValue]="p.id">
+              #{{ p.id }} · {{ p.fullNameAr || p.fullName }}
+            </option>
+          }
+        </select>
+      </div>
+    }
+
+    <div class="grid-2">
+      <div class="field">
+        <label>التاريخ</label>
+        <input type="date" [(ngModel)]="form.appointmentDate" name="appointmentDate" required />
+      </div>
+      <div class="field">
+        <label>وقت البداية</label>
+        <input type="time" [(ngModel)]="form.startTime" name="startTime" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>ملاحظات</label>
+      <textarea rows="3" [(ngModel)]="form.notes" name="notes"></textarea>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="loading()">
+      {{ loading() ? 'جاري الحفظ...' : 'تأكيد الحجز' }}
+    </button>
+  </form>
+</div>

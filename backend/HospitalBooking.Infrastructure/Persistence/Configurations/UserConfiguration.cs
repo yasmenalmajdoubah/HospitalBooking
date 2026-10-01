@@ -18,7 +18,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.FullNameAr).HasMaxLength(200);
         builder.Property(x => x.Phone).HasMaxLength(30);
         builder.Property(x => x.IsActive).HasDefaultValue(true);
-        builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+        // CreatedAt is set in application code (UTC).
 
         builder.HasIndex(x => x.UserName).IsUnique();
         builder.HasIndex(x => x.Email).IsUnique();

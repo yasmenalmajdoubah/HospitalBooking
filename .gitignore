@@ -84,6 +84,11 @@ ehthumbs.db
 *.ldf
 *.ndf
 *.bak
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+!Thumbs.db
 
 # ===== Test / Coverage =====
 TestResults/

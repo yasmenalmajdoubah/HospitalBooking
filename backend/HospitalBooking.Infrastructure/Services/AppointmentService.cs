@@ -303,9 +303,9 @@ public class AppointmentService : IAppointmentService
             throw new AppException("Only Admin/Receptionist/Patient can create appointments. / غير مصرح بإنشاء حجز.", 403);
         }
 
-        if (!requestedPatientId.HasValue)
+        if (!requestedPatientId.HasValue || requestedPatientId.Value <= 0)
         {
-            throw new AppException("PatientId is required. / رقم المريض مطلوب.", 400);
+            throw new AppException("PatientId must be a positive number. / رقم المريض يجب أن يكون أكبر من صفر.", 400);
         }
 
         var exists = await _dbContext.Patients.AnyAsync(x => x.Id == requestedPatientId.Value, cancellationToken);

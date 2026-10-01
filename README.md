@@ -12,9 +12,10 @@ Hospital appointment booking system built with **ASP.NET Core 8** + **Angular** 
 |-------|------------|
 | Backend | ASP.NET Core 8 Web API |
 | Frontend | Angular (latest LTS) |
-| Database | SQL Server LocalDB → `HospitalBookingDb` |
+| Database | SQL Server (`HospitalBookingDb`) · SQLite for local demo |
 | Auth | JWT + Roles |
 | Languages | Arabic + English (RTL/LTR) |
+| Architecture | Clean Architecture (.NET) |
 
 ---
 
@@ -75,9 +76,9 @@ HospitalBooking/
 | 04 | EF Core + HospitalBookingDb + Migration | ✅ Done |
 | 05 | JWT Auth + Roles | ✅ Done |
 | 06 | Appointments APIs | ✅ Done |
-| 07 | Angular project + API link | ⏳ Next |
-| 08 | UI screens (Login, Departments, Booking) | ⏳ Pending |
-| 09 | Seed data + polish | ⏳ Pending |
+| 07 | Angular project + API link | ✅ Done |
+| 08 | UI screens (Login, Manage, Booking) | ✅ Done |
+| 09 | Seed data + polish | ✅ Done |
 
 Detailed docs for each step: [`docs/steps/`](docs/steps/)
 

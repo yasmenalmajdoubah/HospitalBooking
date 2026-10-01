@@ -1,4 +1,5 @@
 using HospitalBooking.Application.DTOs.Catalog;
+using HospitalBooking.Application.Exceptions;
 using HospitalBooking.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +18,29 @@ public class CatalogController : ControllerBase
         _catalogService = catalogService;
     }
 
-    /// <summary>
-    /// Active departments / الأقسام النشطة
-    /// </summary>
     [HttpGet("departments")]
     public async Task<ActionResult<IReadOnlyList<DepartmentDto>>> GetDepartments(CancellationToken cancellationToken)
     {
         return Ok(await _catalogService.GetDepartmentsAsync(cancellationToken));
     }
 
-    /// <summary>
-    /// Active doctors (optional department filter) / الأطباء
-    /// </summary>
+    [HttpPost("departments")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<DepartmentDto>> CreateDepartment(
+        [FromBody] CreateDepartmentRequest request,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _catalogService.CreateDepartmentAsync(request, cancellationToken);
+            return StatusCode(StatusCodes.Status201Created, result);
+        }
+        catch (AppException ex)
+        {
+            return StatusCode(ex.StatusCode, new { message = ex.Message });
+        }
+    }
+
     [HttpGet("doctors")]
     public async Task<ActionResult<IReadOnlyList<DoctorDto>>> GetDoctors(
         [FromQuery] int? departmentId,
@@ -37,9 +49,30 @@ public class CatalogController : ControllerBase
         return Ok(await _catalogService.GetDoctorsAsync(departmentId, cancellationToken));
     }
 
-    /// <summary>
-    /// Appointment statuses / حالات الحجز
-    /// </summary>
+    [HttpPost("doctors")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<DoctorDto>> CreateDoctor(
+        [FromBody] CreateDoctorRequest request,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _catalogService.CreateDoctorAsync(request, cancellationToken);
+            return StatusCode(StatusCodes.Status201Created, result);
+        }
+        catch (AppException ex)
+        {
+            return StatusCode(ex.StatusCode, new { message = ex.Message });
+        }
+    }
+
+    [HttpGet("patients")]
+    [Authorize(Roles = "Admin,Receptionist")]
+    public async Task<ActionResult<IReadOnlyList<PatientListItemDto>>> GetPatients(CancellationToken cancellationToken)
+    {
+        return Ok(await _catalogService.GetPatientsAsync(cancellationToken));
+    }
+
     [HttpGet("appointment-statuses")]
     public async Task<ActionResult<IReadOnlyList<AppointmentStatusDto>>> GetAppointmentStatuses(
         CancellationToken cancellationToken)

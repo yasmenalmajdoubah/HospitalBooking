@@ -1,0 +1,142 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(1.2rem, 3vw, 2.4rem);
+  display: grid;
+  gap: 1rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+}
+
+.brand {
+  color: var(--teal);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.user-box {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.user-box div {
+  display: grid;
+  text-align: left;
+}
+
+.user-box span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.1rem 1.2rem;
+}
+
+.toolbar p {
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.card {
+  padding: 1.15rem 1.2rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(31, 214, 176, 0.35);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.card-top p {
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.meta {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.meta span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.notes {
+  margin-top: 0.9rem;
+  color: var(--sand);
+}
+
+.card-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty h3 {
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+@media (max-width: 800px) {
+  .topbar,
+  .toolbar,
+  .card-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-box {
+    justify-content: space-between;
+  }
+
+  .meta {
+    grid-template-columns: 1fr;
+  }
+}

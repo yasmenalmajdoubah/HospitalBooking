@@ -1,0 +1,92 @@
+<div class="page">
+  <header class="topbar rise">
+    <div>
+      <p class="brand">HospitalBooking</p>
+      <h1>لوحة الحجوزات</h1>
+    </div>
+    <div class="user-box">
+      <div>
+        <strong>{{ user()?.fullNameAr || user()?.fullName }}</strong>
+        <span>{{ user()?.roleAr || user()?.role }}</span>
+      </div>
+      <button class="btn btn-ghost" type="button" (click)="logout()">خروج</button>
+    </div>
+  </header>
+
+  <section class="toolbar panel rise rise-delay-1">
+    <div>
+      <h2>مواعيدك الآن</h2>
+      <p>عرض مباشر من API · مع فلترة تلقائية حسب الدور</p>
+    </div>
+    <div class="actions">
+      <button class="btn btn-ghost" type="button" (click)="reload()">تحديث</button>
+      @if (isAdmin()) {
+        <a class="btn btn-ghost" routerLink="/manage">إدارة أقسام/أطباء</a>
+      }
+      @if (canBook()) {
+        <a class="btn btn-primary" routerLink="/book">حجز جديد</a>
+      }
+    </div>
+  </section>
+
+  @if (actionMsg()) {
+    <div class="alert ok rise">{{ actionMsg() }}</div>
+  }
+  @if (error()) {
+    <div class="alert rise">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="empty panel rise">جاري التحميل...</div>
+  } @else if (appointments().length === 0) {
+    <div class="empty panel rise">
+      <h3>لا توجد حجوزات بعد</h3>
+      <p>ابدأ بحجز جديد أو سجّل كمريض ثم احجز موعدك.</p>
+    </div>
+  } @else {
+    <div class="list">
+      @for (item of appointments(); track item.id; let i = $index) {
+        <article class="card panel rise" [style.animationDelay]="i * 60 + 'ms'">
+          <div class="card-top">
+            <div>
+              <h3>{{ item.doctorNameAr || item.doctorName }}</h3>
+              <p>{{ item.departmentNameAr || item.departmentName }} · {{ item.specialtyAr || item.specialty }}</p>
+            </div>
+            <span class="badge" [ngClass]="statusClass(item.status)">{{ item.statusAr || item.status }}</span>
+          </div>
+
+          <div class="meta">
+            <div>
+              <span>المريض</span>
+              <strong>{{ item.patientNameAr || item.patientName }}</strong>
+            </div>
+            <div>
+              <span>التاريخ</span>
+              <strong>{{ item.appointmentDate }}</strong>
+            </div>
+            <div>
+              <span>الوقت</span>
+              <strong>{{ item.startTime }} - {{ item.endTime }}</strong>
+            </div>
+          </div>
+
+          @if (item.notes) {
+            <p class="notes">{{ item.notes }}</p>
+          }
+
+          <div class="card-actions">
+            @if (item.status !== 'Cancelled' && item.status !== 'Completed') {
+              <button class="btn btn-danger" type="button" (click)="cancel(item)">إلغاء</button>
+            }
+            @if ((user()?.role === 'Doctor' || user()?.role === 'Admin' || user()?.role === 'Receptionist') && item.status === 'Pending') {
+              <button class="btn btn-primary" type="button" (click)="confirm(item)">تأكيد</button>
+            }
+            @if ((user()?.role === 'Doctor' || user()?.role === 'Admin') && item.status === 'Confirmed') {
+              <button class="btn btn-ghost" type="button" (click)="complete(item)">إكمال</button>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

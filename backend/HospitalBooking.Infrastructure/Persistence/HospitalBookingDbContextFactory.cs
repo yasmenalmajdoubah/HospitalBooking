@@ -30,8 +30,17 @@ public class HospitalBookingDbContextFactory : IDesignTimeDbContextFactory<Hospi
         var connectionString = configuration.GetConnectionString("HospitalBookingDb")
             ?? throw new InvalidOperationException("Connection string 'HospitalBookingDb' was not found.");
 
+        var provider = configuration.GetValue<string>("Database:Provider") ?? "Sqlite";
         var optionsBuilder = new DbContextOptionsBuilder<HospitalBookingDbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
+
+        if (provider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
+        {
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+        else
+        {
+            optionsBuilder.UseSqlite(connectionString);
+        }
 
         return new HospitalBookingDbContext(optionsBuilder.Options);
     }

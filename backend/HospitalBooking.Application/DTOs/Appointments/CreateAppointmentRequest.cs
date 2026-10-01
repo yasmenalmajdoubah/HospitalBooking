@@ -7,9 +7,11 @@ public class CreateAppointmentRequest
     /// <summary>
     /// Required for Admin/Receptionist. Ignored for Patient (uses own profile).
     /// </summary>
+    [Range(1, int.MaxValue, ErrorMessage = "PatientId must be a positive number.")]
     public int? PatientId { get; set; }
 
     [Required]
+    [Range(1, int.MaxValue)]
     public int DoctorId { get; set; }
 
     [Required]

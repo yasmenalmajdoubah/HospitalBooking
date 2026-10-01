@@ -26,25 +26,38 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
-        var login = request.UserNameOrEmail.Trim();
-
-        var user = await _dbContext.Users
-            .Include(x => x.Role)
-            .FirstOrDefaultAsync(
-                x => x.UserName == login || x.Email == login,
-                cancellationToken);
-
-        if (user is null || !_passwordHasher.VerifyPassword(user.PasswordHash, request.Password))
+        try
         {
-            throw new AppException("Invalid username/email or password. / اسم المستخدم أو كلمة المرور غير صحيحة.", 401);
-        }
+            var login = request.UserNameOrEmail.Trim();
 
-        if (!user.IsActive)
+            var user = await _dbContext.Users
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(
+                    x => x.UserName == login || x.Email == login,
+                    cancellationToken);
+
+            if (user is null || !_passwordHasher.VerifyPassword(user.PasswordHash, request.Password))
+            {
+                throw new AppException("Invalid username/email or password. / اسم المستخدم أو كلمة المرور غير صحيحة.", 401);
+            }
+
+            if (!user.IsActive)
+            {
+                throw new AppException("This account is inactive. / هذا الحساب غير مفعّل.", 403);
+            }
+
+            return CreateAuthResponse(user);
+        }
+        catch (AppException)
         {
-            throw new AppException("This account is inactive. / هذا الحساب غير مفعّل.", 403);
+            throw;
         }
-
-        return CreateAuthResponse(user);
+        catch (Exception)
+        {
+            throw new AppException(
+                "Database connection failed. / فشل الاتصال بقاعدة البيانات. تأكد أن الـ API شغال وأن Database:Provider مضبوط.",
+                503);
+        }
     }
 
     public async Task<AuthResponse> RegisterPatientAsync(

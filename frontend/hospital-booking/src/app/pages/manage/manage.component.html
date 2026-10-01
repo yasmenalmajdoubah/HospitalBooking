@@ -1,0 +1,107 @@
+<div class="page">
+  <header class="rise">
+    <a routerLink="/appointments" class="back">← رجوع للحجوزات</a>
+    <h1>إدارة الأقسام والأطباء</h1>
+    <p>من هنا تضيف أقسام ودكاترة (Admin فقط).</p>
+  </header>
+
+  @if (message()) {
+    <div class="alert ok">{{ message() }}</div>
+  }
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  <div class="grid">
+    <section class="panel block rise">
+      <h2>إضافة قسم</h2>
+      <form class="form" (ngSubmit)="addDepartment()">
+        <div class="field">
+          <label>الاسم EN</label>
+          <input [(ngModel)]="deptForm.name" name="deptName" required />
+        </div>
+        <div class="field">
+          <label>الاسم AR</label>
+          <input [(ngModel)]="deptForm.nameAr" name="deptNameAr" required />
+        </div>
+        <div class="field">
+          <label>الوصف</label>
+          <input [(ngModel)]="deptForm.description" name="deptDesc" />
+        </div>
+        <button class="btn btn-primary" type="submit">حفظ القسم</button>
+      </form>
+
+      <div class="list">
+        @for (d of departments(); track d.id) {
+          <div class="row">
+            <strong>#{{ d.id }} · {{ d.nameAr }}</strong>
+            <span>{{ d.name }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="panel block rise rise-delay-1">
+      <h2>إضافة طبيب</h2>
+      <form class="form" (ngSubmit)="addDoctor()">
+        <div class="field">
+          <label>القسم</label>
+          <select [(ngModel)]="doctorForm.departmentId" name="docDept" required>
+            <option [ngValue]="0" disabled>اختر قسم</option>
+            @for (d of departments(); track d.id) {
+              <option [ngValue]="d.id">{{ d.nameAr }} / {{ d.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>UserName</label>
+            <input [(ngModel)]="doctorForm.userName" name="docUser" required />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input [(ngModel)]="doctorForm.email" name="docEmail" type="email" required />
+          </div>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input [(ngModel)]="doctorForm.password" name="docPass" required />
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>الاسم EN</label>
+            <input [(ngModel)]="doctorForm.fullName" name="docFull" required />
+          </div>
+          <div class="field">
+            <label>الاسم AR</label>
+            <input [(ngModel)]="doctorForm.fullNameAr" name="docFullAr" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>التخصص EN</label>
+            <input [(ngModel)]="doctorForm.specialty" name="docSpec" required />
+          </div>
+          <div class="field">
+            <label>التخصص AR</label>
+            <input [(ngModel)]="doctorForm.specialtyAr" name="docSpecAr" required />
+          </div>
+        </div>
+        <div class="field">
+          <label>رقم الترخيص</label>
+          <input [(ngModel)]="doctorForm.licenseNumber" name="docLic" required />
+        </div>
+        <button class="btn btn-primary" type="submit">حفظ الطبيب</button>
+      </form>
+
+      <div class="list">
+        @for (doc of doctors(); track doc.id) {
+          <div class="row">
+            <strong>#{{ doc.id }} · {{ doc.fullNameAr || doc.fullName }}</strong>
+            <span>{{ doc.departmentNameAr }} · {{ doc.specialtyAr || doc.specialty }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</div>
