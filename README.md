@@ -74,8 +74,8 @@ HospitalBooking/
 | 03 | Domain entities | ✅ Done |
 | 04 | EF Core + HospitalBookingDb + Migration | ✅ Done |
 | 05 | JWT Auth + Roles | ✅ Done |
-| 06 | Appointments APIs | ⏳ Next |
-| 07 | Angular project + API link | ⏳ Pending |
+| 06 | Appointments APIs | ✅ Done |
+| 07 | Angular project + API link | ⏳ Next |
 | 08 | UI screens (Login, Departments, Booking) | ⏳ Pending |
 | 09 | Seed data + polish | ⏳ Pending |
 

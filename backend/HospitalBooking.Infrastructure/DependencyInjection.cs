@@ -56,6 +56,8 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasherService, PasswordHasherService>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAppointmentService, Services.AppointmentService>();
+        services.AddScoped<ICatalogService, Services.CatalogService>();
 
         return services;
     }
