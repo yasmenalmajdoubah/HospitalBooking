@@ -71,8 +71,8 @@ HospitalBooking/
 |------|-------------|--------|
 | 01 | Project structure + GitHub | ✅ Done |
 | 02 | .NET solution (empty API) | ✅ Done |
-| 03 | Domain entities | ⏳ Next |
-| 04 | EF Core + HospitalBookingDb + Migration | ⏳ Pending |
+| 03 | Domain entities | ✅ Done |
+| 04 | EF Core + HospitalBookingDb + Migration | ⏳ Next |
 | 05 | JWT Auth + Roles | ⏳ Pending |
 | 06 | Appointments APIs | ⏳ Pending |
 | 07 | Angular project + API link | ⏳ Pending |

@@ -1,6 +1,6 @@
 # Database Design Overview / نظرة عامة على قاعدة البيانات
 
-> هذا الملف توثيق تخطيطي فقط. التنفيذ الفعلي في **Step 04**.
+> Entities موجودة في Domain (Step 03). EF Core + إنشاء القاعدة الفعلي في **Step 04**.
 
 ## Database
 
